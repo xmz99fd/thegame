@@ -33,6 +33,18 @@ SCREEN_WIDTH = 1920
 
 SCREEN_HEIGHT = 1080
 
+# Initialize pygame
+pygame.init()
+
+# Create the screen object
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Setup for sounds (optional, defaults are good)
+pygame.mixer.init()
+
+# Initialize font for the scoreboard
+pygame.font.init()
+font = pygame.font.Font(None, 74)
 
 # Define a player object by extending pygame.sprite.Sprite
 
@@ -46,6 +58,8 @@ def update(self):
         self.rect.move_ip(-self.speed, 0)
         if self.rect.right < 0:
             self.kill()
+            
+
 
 # The surface drawn on the screen is now an attribute of 'player'
 
@@ -171,17 +185,21 @@ bg = pygame.image.load("pitch.png").convert()
 
 running = True
 
+start_time = pygame.time.get_ticks()
+
 # Setup for sounds. Defaults are good.
 
 pygame.mixer.init()
 
 # Setup the clock for a decent framerate
-
 clock = pygame.time.Clock()
+time = 0
 
 # Main loop
 
 while running:
+
+    time = time +1
 
     # for loop through the event queue
 
@@ -245,8 +263,12 @@ while running:
         player.kill()
 
         running = False
-    # Update the display
-        
+
+    elapsed_time_sec = time//60
+
+    score_text = font.render(f"Time: {elapsed_time_sec} s", True, (255, 255, 255))  # White color
+    
+    screen.blit(score_text, (10, 10))
     pygame.display.flip()
     # Ensure program maintains a rate of 30 frames per second
 
