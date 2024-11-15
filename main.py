@@ -105,14 +105,14 @@ class Player(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super(Enemy, self).__init__()
-        self.surf = pygame.image.load("better.png"  ).convert()
+        self.surf = pygame.image.load("better.png"  ).convert_alpha()
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 2, SCREEN_WIDTH + 2),
                 random.randint(0, SCREEN_HEIGHT),
                 )
-            )
+            )   
         self.speed = random.randint(10, 40)
 
 
@@ -165,12 +165,15 @@ all_sprites = pygame.sprite.Group()
 
 all_sprites.add(player)
 
+bg = pygame.image.load("pitch.png").convert()
 
 # Variable to keep the main loop running
 
 running = True
 
+# Setup for sounds. Defaults are good.
 
+pygame.mixer.init()
 
 # Setup the clock for a decent framerate
 
@@ -213,7 +216,7 @@ while running:
 
             all_sprites.add(new_enemy)
 
-    screen.fill((0, 200, 0))
+    screen.blit(bg, (0,0))
 
     # Update the player sprite based on user keypresses
     pressed_keys = pygame.key.get_pressed()
