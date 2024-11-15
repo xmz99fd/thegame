@@ -55,13 +55,9 @@ class Player(pygame.sprite.Sprite):
 
         super(Player, self).__init__()
 
-        self.surf = pygame.image.load("jet.png").convert()
+        self.surf = pygame.image.load("smallball.png").convert()
 
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
-
-        self.surf = pygame.Surface((75, 25))
-
-        self.surf.fill((255, 255, 255))
 
         self.rect = self.surf.get_rect()
 
@@ -73,19 +69,19 @@ class Player(pygame.sprite.Sprite):
 
         if pressed_keys[K_UP]:
 
-            self.rect.move_ip(0, -5)
+            self.rect.move_ip(0, -15)
 
         if pressed_keys[K_DOWN]:
 
-            self.rect.move_ip(0, 5)
+            self.rect.move_ip(0, 15)
 
         if pressed_keys[K_LEFT]:
 
-            self.rect.move_ip(-5, 0)
+            self.rect.move_ip(-15, 0)
 
         if pressed_keys[K_RIGHT]:
 
-            self.rect.move_ip(5, 0)
+            self.rect.move_ip(15, 0)
 
 
         # Keep player on the screen
@@ -109,15 +105,15 @@ class Player(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super(Enemy, self).__init__()
-        self.surf = pygame.Surface((20, 10))
-        self.surf.fill((255, 255, 255))
+        self.surf = pygame.image.load("better.png"  ).convert()
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect(
             center=(
-                random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
+                random.randint(SCREEN_WIDTH + 2, SCREEN_WIDTH + 2),
                 random.randint(0, SCREEN_HEIGHT),
                 )
             )
-        self.speed = random.randint(5, 20)
+        self.speed = random.randint(10, 40)
 
 
     # Move the sprite based on speed
@@ -175,6 +171,11 @@ all_sprites.add(player)
 running = True
 
 
+
+# Setup the clock for a decent framerate
+
+clock = pygame.time.Clock()
+
 # Main loop
 
 while running:
@@ -212,6 +213,8 @@ while running:
 
             all_sprites.add(new_enemy)
 
+    screen.fill((0, 200, 0))
+
     # Update the player sprite based on user keypresses
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
@@ -220,10 +223,6 @@ while running:
 
     enemies.update()
 
-
-    # Fill the screen with black
-
-    screen.fill((0, 0, 0))
 
 
     # Draw the player on the screen
@@ -243,9 +242,13 @@ while running:
         player.kill()
 
         running = False
-
-
     # Update the display
-
+        
     pygame.display.flip()
-    nigger
+    # Ensure program maintains a rate of 30 frames per second
+
+    clock.tick(60)
+
+
+
+
