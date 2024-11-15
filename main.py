@@ -9,6 +9,8 @@ import random
 
 from pygame.locals import(
 
+    RLEACCEL,
+   
     K_UP,
 
     K_DOWN,
@@ -52,6 +54,10 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
 
         super(Player, self).__init__()
+
+        self.surf = pygame.image.load("jet.png").convert()
+
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
 
         self.surf = pygame.Surface((75, 25))
 
@@ -242,3 +248,4 @@ while running:
     # Update the display
 
     pygame.display.flip()
+    nigger
