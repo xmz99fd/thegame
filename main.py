@@ -275,5 +275,5 @@ while running:
     clock.tick(60)
 
 
-
+print(elapsed_time_sec)
 
