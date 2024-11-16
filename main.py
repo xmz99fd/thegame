@@ -39,8 +39,6 @@ pygame.init()
 # Create the screen object
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Setup for sounds (optional, defaults are good)
-pygame.mixer.init()
 
 # Initialize font for the scoreboard
 pygame.font.init()
@@ -190,6 +188,11 @@ start_time = pygame.time.get_ticks()
 # Setup for sounds. Defaults are good.
 
 pygame.mixer.init()
+# **Add these lines to load sound effects**
+collision_sound = pygame.mixer.Sound("Collison.wav")  # Replace with your sound file
+enemy_spawn_sound = pygame.mixer.Sound("enemysound.wav")  # Optional, for when enemies spawn
+pygame.mixer.music.load("bg.mp3")  # Optional background music
+pygame.mixer.music.play(-1)  # Loop background music
 
 # Setup the clock for a decent framerate
 clock = pygame.time.Clock()
@@ -234,6 +237,8 @@ while running:
 
             all_sprites.add(new_enemy)
 
+            enemy_spawn_sound.play()
+
     screen.blit(bg, (0,0))
 
     # Update the player sprite based on user keypresses
@@ -259,10 +264,14 @@ while running:
     if pygame.sprite.spritecollideany(player, enemies):
 
     # If so, then remove the player and stop the loop
-
+        collision_sound.play()
         player.kill()
 
         running = False
+        game_over_font = pygame.font.Font(None, 100)  # Adjust size as needed
+        game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))  # Red color
+        screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2 - 50))
+        pygame.time.wait(4000)
 
     elapsed_time_sec = time//60
 
